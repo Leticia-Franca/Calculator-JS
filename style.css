@@ -34,6 +34,7 @@ main {
 	letter-spacing: 0.35px;
 	border: none;
 	background-color: #ccc;
+	height: 80%;
 }
 
 .calculator-wrapper {
