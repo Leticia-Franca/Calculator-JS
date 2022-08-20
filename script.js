@@ -2,11 +2,14 @@
 const digits = document.querySelectorAll('.digits');
 const numbers = document.querySelectorAll('.numbers');
 const operators = document.querySelectorAll('.operators');
+const resultDisplay = document.getElementById('display-result');
 let firstNumber = null;
 let secondNumber = null;
 let hasOperator = null;
 let	operationType = null;
 let isEqual = null;
+
+
 
 // console.log(numbers[0].textContent);
 // console.log(numbers[1].textContent);
@@ -38,20 +41,28 @@ digits.forEach(digit => {
 		// 	console.log("it's an OPERATOR!");
 		// if (clickedDigit.classList.contains('numbers'))
 		if (clickedDigit.classList.contains('numbers')) {
-			if (firstNumber == null)
+			if (firstNumber == null) {
 				firstNumber = clickedDigit.textContent;
+				resultDisplay.textContent = firstNumber;
+			}
 			else if (hasOperator == null)
 			{
-				firstNumber += clickedDigit.textContent; 
-				console.log('Number: ' + firstNumber);
+				firstNumber += clickedDigit.textContent;
+				resultDisplay.textContent = firstNumber;
 			}
 			else {
 				if (hasOperator == 1)
 				{
-					if (secondNumber == null)
+					if (secondNumber == null) {
 						secondNumber = clickedDigit.textContent;
-					else
-						secondNumber += clickedDigit.textContent;
+						resultDisplay.textContent += secondNumber;	
+					}
+					else {
+						secondNumber += clickedDigit.textContent;	
+						console.log(secondNumber);
+						resultDisplay.textContent = firstNumber + ' ' + operationType + ' ' + secondNumber;
+					}
+					
 				}
 			}
 		// console.log(firstNumber);
@@ -65,6 +76,7 @@ digits.forEach(digit => {
 					hasOperator = 1;
 					operationType = clickedDigit.textContent;
 					// console.log('Operation type: ' + operationType);
+					resultDisplay.textContent += ' ' + operationType;
 				}
 			}
 		}
@@ -72,9 +84,6 @@ digits.forEach(digit => {
 			if (clickedDigit.classList.contains('result-btn'))
 				isEqual = 1;
 		}
-		// test to garantee that the order is correct and all the digits are stored
-		// if (firstNumber && operationType && secondNumber)
-			// console.log('Operação: ' + firstNumber, operationType, secondNumber);
 		// We call the function to do the math:
 		if (isEqual == 1)
 			calculation();
@@ -83,22 +92,28 @@ digits.forEach(digit => {
 
 function calculation() {
 	let result;
+	let first;
+	let second;
+
+	first = parseInt(firstNumber);
+	second = parseInt(secondNumber);
 	if (operationType == '+')
-		result = firstNumber + secondNumber;
+		result = first + second;
 	else if (operationType == '-')
-		result = firstNumber - secondNumber;
+		result = first - second;
 	else if (operationType == '/')
-		result = firstNumber / secondNumber;
+		result = first / second;
 	else if (operationType == '*')
-		result = firstNumber * secondNumber;
+		result = first * second;
 	else if (operationType == '%')
-		result = firstNumber % secondNumber;
+		result = first % second;
 	console.log('Resultado é: ' + result);
+	resultDisplay.textContent = result;
 
 	// after the calculation, reset variables for operation
 	firstNumber = null;
 	secondNumber = null;
 	operationType = null;
 	isEqual = null;
-	hasOperator = 0;
+	hasOperator = null;
 }
