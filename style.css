@@ -1,0 +1,114 @@
+*, *::after, *::before { box-sizing: border-box; }
+
+body {background-image: linear-gradient(to right, rgba(148, 47, 7, 0.5), rgba(88, 12, 45, 0.7));}
+
+main {
+	/* 
+	 * again, as it's a single component, we can use position:absolute
+	 * to centralize it without any problem
+	*/
+	position:absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	/*  */
+	background-color: #423d3d;
+	width: 20rem;
+	height: 25rem;
+}
+
+.input-wrapper {
+	height: 20%;
+	width: 100%;
+	padding: 10px;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-around;
+	align-items: center;
+}
+
+#display-result {
+	width: 60%;
+	padding: 0.5rem 1rem;
+	font-size: 1.25rem;
+	letter-spacing: 0.35px;
+	border: none;
+	background-color: #ccc;
+}
+
+.calculator-wrapper {
+	background-color: #423d3d;
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	width: 100%;
+	height: 100%;
+}
+
+.digits-wrapper {
+	display: grid;
+	width: 100%;
+	height: 80%;
+	grid-template-columns: repeat(4, 1fr);	
+}
+
+.digits {
+	text-align: center;
+	padding-top: 20px;
+	color: #ccc;
+	background-color: #272222;
+	font-size: 1.2rem;
+	cursor: pointer;
+	transition: all 200ms;
+}
+
+.digits:hover { background-color: #201b1b; }
+
+.digits:active { transform: translateY(4px); color: #d6a725; }
+
+.result-operators {
+	display: flex;
+	padding: 0 10px;
+	flex-direction: row;
+	justify-content: space-around;
+	align-items: center;
+	width: 100%;
+	height: 20%;
+}
+
+.result-btn {
+	text-align: center;
+	color: #ccc;
+	font-size: 2rem;
+	font-weight: 700;
+	padding: 10px 0;
+}
+
+#equal-to, #delete-btn, #reset-btn {
+	cursor: pointer;
+	transition: all 150ms;
+}
+
+#equal-to { 
+	background-color: #87b337;
+	width: 50%;
+}
+
+#delete-btn { 
+	background-color: #758699;
+	width: 40%;
+}
+
+#reset-btn {
+	width: 30%;
+	padding: 0.5rem;
+	font-size: 2rem;
+	font-weight: 800;
+	background-color: #d33f3f;
+	color: #ccc;
+	border: none;
+}
+
+#reset-btn:hover { background-color: #df4e4e; }
+
+#reset-btn:active, #delete-btn:active, #equal-to:active {transform: scale(0.95);}

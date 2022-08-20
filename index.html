@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="style.css">
+	<title>Calculator</title>
+</head>
+<body>
+	
+	<!-- only the main div, because we're gonna create the grid dinamically - in js -->
+
+	<main id="grid">
+		<div class="input-wrapper">
+			<input type="text" id="display-result">
+			<button id="reset-btn">C</button>
+		</div>
+		<div class="calculator-wrapper">
+			<div class="digits-wrapper">
+				<div class="digits numbers" id="9">9</div>
+				<div class="digits numbers" id="8">8</div>
+				<div class="digits numbers" id="7">7</div>
+				<div class="digits numbers" id="6">6</div>
+				<div class="digits numbers" id="5">5</div>
+				<div class="digits numbers" id="4">4</div>
+				<div class="digits numbers" id="3">3</div>
+				<div class="digits numbers" id="2">2</div>
+				<div class="digits numbers" id="1">1</div>
+				<div class="digits numbers" id="0">0</div>
+				<div class="digits operators" id="comma">,</div>
+				<div class="digits operators" id="module">%</div>
+				<div class="digits operators" id="add">+</div>
+				<div class="digits operators" id="subtract">-</div>
+				<div class="digits operators" id="divide">/</div>
+				<div class="digits operators" id="multiply">*</div>
+			</div>
+			<div class="result-operators">
+				<div class="result-btn" id="equal-to">=</div>
+				<div class="result-btn" id="delete-btn">DEL</div>
+			</div>
+		</div>
+		
+	</main>
+
+	<script src="./script.js"></script>
+</body>
+</html>
