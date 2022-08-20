@@ -1,12 +1,12 @@
 // We store each element in a variable
 const digits = document.querySelectorAll('.digits');
 const resultDisplay = document.getElementById('display-result');
+const resetBtn = document.getElementById('reset-btn');
 let firstNumber = null;
 let secondNumber = null;
 let hasOperator = null;
 let	operationType = null;
 let isEqual = null;
-
 
 
 // console.log(numbers[0].textContent);
@@ -18,6 +18,16 @@ let isEqual = null;
 // 	console.log("opa, eh operador hein", digits[10].textContent);
 // else
 // 	console.log("nao eh operador!");
+
+// Put the reset button to listen to an event
+resetBtn.addEventListener('click', () => {
+	firstNumber = null;
+	secondNumber = null;
+	hasOperator = null;
+	operationType = null;
+	isEqual = null;
+	resultDisplay.textContent = '';
+})
 
 // We need each digit to listen to the 'click' event
 digits.forEach(digit => {
@@ -49,19 +59,15 @@ digits.forEach(digit => {
 				resultDisplay.textContent = firstNumber;
 			}
 			else {
-				if (hasOperator == 1)
-				{
-					if (secondNumber == null) {
-						secondNumber = clickedDigit.textContent;
-						resultDisplay.textContent += secondNumber;	
-					}
-					else {
-						secondNumber += clickedDigit.textContent;	
-						console.log(secondNumber);
-						resultDisplay.textContent = firstNumber + ' ' + operationType + ' ' + secondNumber;
-					}
-					
+				if (secondNumber == null) {
+					secondNumber = clickedDigit.textContent;
+					resultDisplay.textContent += secondNumber;	
 				}
+				else {
+					secondNumber += clickedDigit.textContent;	
+					console.log(secondNumber);
+					resultDisplay.textContent = firstNumber + ' ' + operationType + ' ' + secondNumber;
+				}	
 			}
 		// console.log(firstNumber);
 		} else if (clickedDigit.classList.contains('operators')) {
@@ -79,12 +85,11 @@ digits.forEach(digit => {
 			}
 		}
 		else {
-			if (clickedDigit.classList.contains('result-btn'))
+			if (clickedDigit.id == 'equal-to') {
 				isEqual = 1;
+				calculation();
+			}
 		}
-		// We call the function to do the math:
-		if (isEqual == 1)
-			calculation();
 	})
 })
 
