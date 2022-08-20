@@ -97,16 +97,15 @@ function calculation() {
 
 	first = parseInt(firstNumber);
 	second = parseInt(secondNumber);
-	if (operationType == '+')
-		result = first + second;
-	else if (operationType == '-')
-		result = first - second;
-	else if (operationType == '/')
-		result = first / second;
-	else if (operationType == '*')
-		result = first * second;
-	else if (operationType == '%')
-		result = first % second;
+	const handleOperation = {
+		"+": first + second, 
+		"-": first - second,
+		"/": first / second,
+		"*": first * second,
+		"%": first % second,
+	};
+
+	result = handleOperation[operationType];
 	console.log('Resultado é: ' + result);
 	resultDisplay.textContent = result;
 
