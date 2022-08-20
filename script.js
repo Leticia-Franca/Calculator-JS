@@ -39,11 +39,14 @@ digits.forEach(digit => {
 		if (clickedDigit.classList.contains('numbers')) {
 			if (firstNumber == null)
 				firstNumber = clickedDigit.textContent;
+			else if (hasOperator == null)
+			{
+				firstNumber += clickedDigit.textContent; 
+				console.log('Number: ' + firstNumber);
+			}
 			else {
 				if (hasOperator == 1)
-					secondNumber = clickedDigit.textContent;
-				else
-					alert('Please, choose an operator before clicking a second number!');
+					secondNumber = parseInt(clickedDigit.textContent);
 			}
 		// console.log(firstNumber);
 		} else {
@@ -55,9 +58,36 @@ digits.forEach(digit => {
 				else {
 					hasOperator = 1;
 					operationType = clickedDigit.textContent;
-					console.log('Operation type: ' + operationType);
-				}	
+					// console.log('Operation type: ' + operationType);
+				}
 			}
 		}
+		// test to garantee that the order is correct and all the digits are stored
+		// if (firstNumber && operationType && secondNumber)
+			// console.log('Operação: ' + firstNumber, operationType, secondNumber);
+		// We call the function to do the math:
+		if (firstNumber && operationType && secondNumber)
+			calculation();
 	})
 })
+
+function calculation() {
+	let result;
+	if (operationType == '+')
+		result = firstNumber + secondNumber;
+	else if (operationType == '-')
+		result = firstNumber - secondNumber;
+	else if (operationType == '/')
+		result = firstNumber / secondNumber;
+	else if (operationType == '*')
+		result = firstNumber * secondNumber;
+	else if (operationType == '%')
+		result = firstNumber % secondNumber;
+	console.log('Resultado é: ' + result);
+
+	// after the calculation, reset variables for operation
+	firstNumber = null;
+	secondNumber = null;
+	operationType = null;
+	hasOperator = 0;
+}
