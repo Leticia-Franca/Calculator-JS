@@ -1,7 +1,5 @@
 // We store each element in a variable
 const digits = document.querySelectorAll('.digits');
-const numbers = document.querySelectorAll('.numbers');
-const operators = document.querySelectorAll('.operators');
 const resultDisplay = document.getElementById('display-result');
 let firstNumber = null;
 let secondNumber = null;
