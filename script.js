@@ -6,6 +6,7 @@ let firstNumber = null;
 let secondNumber = null;
 let hasOperator = null;
 let	operationType = null;
+let isEqual = null;
 
 // console.log(numbers[0].textContent);
 // console.log(numbers[1].textContent);
@@ -46,10 +47,15 @@ digits.forEach(digit => {
 			}
 			else {
 				if (hasOperator == 1)
-					secondNumber = parseInt(clickedDigit.textContent);
+				{
+					if (secondNumber == null)
+						secondNumber = clickedDigit.textContent;
+					else
+						secondNumber += clickedDigit.textContent;
+				}
 			}
 		// console.log(firstNumber);
-		} else {
+		} else if (clickedDigit.classList.contains('operators')) {
 			if (firstNumber == null)
 				alert('Please, you need to pick a number before the operator!');		
 			else {
@@ -62,11 +68,15 @@ digits.forEach(digit => {
 				}
 			}
 		}
+		else {
+			if (clickedDigit.classList.contains('result-btn'))
+				isEqual = 1;
+		}
 		// test to garantee that the order is correct and all the digits are stored
 		// if (firstNumber && operationType && secondNumber)
 			// console.log('Operação: ' + firstNumber, operationType, secondNumber);
 		// We call the function to do the math:
-		if (firstNumber && operationType && secondNumber)
+		if (isEqual == 1)
 			calculation();
 	})
 })
@@ -89,5 +99,6 @@ function calculation() {
 	firstNumber = null;
 	secondNumber = null;
 	operationType = null;
+	isEqual = null;
 	hasOperator = 0;
 }
