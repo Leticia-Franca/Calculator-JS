@@ -160,10 +160,7 @@ function calculation() {
 	
 	// while -> percorre todo o array
 	while (index_operator < operationElements.length) { 
-		console.log('quantidade de elementos: ', operationElements.length);
-		console.log('Index é: ', index_operator);
 		second = operationElements[index_operator+1];
-		console.log('Segundo numero: ', second);
 		if (index_operator > 1)
 			first = result;
 		const handleOperation = {
@@ -174,15 +171,12 @@ function calculation() {
 			"%": first % second,
 		};
 		result = handleOperation[operationElements[index_operator]];
-		console.log('Resultado é: ' + result);
 		index_operator += 2;
 		resultDisplay.textContent = result;
 	}
 	
-	// after the calculation, reset variables for operation
-	firstNumber = null;
-	secondNumber = null;
-	operationType = null;
+	// after the calculation, reset variables for operationoperationType = null;
 	isEqual = null;
-	hasOperator = null;
+	operationElements = [];
+	index = 0;
 }
