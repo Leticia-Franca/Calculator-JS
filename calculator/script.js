@@ -154,22 +154,25 @@ function calculation() {
 	let index_operator = 1; //incrementa de dois em dois
 
 	first = operationElements[index_operator-1];
-	second = operationElements[index_operator+1];
-	const handleOperation = {
-		"+": first + second, 
-		"-": first - second,
-		"/": first / second,
-		"*": first * second,
-		"%": first % second,
-	};
+	// second = operationElements[index_operator+1];
 
 	// console.log('Operação é: ', operationElements[index_operator]);
 	
-	// console.log('quantidade de elementos: ', operationElements.length);
 	// while -> percorre todo o array
 	while (index_operator < operationElements.length) { 
+		console.log('quantidade de elementos: ', operationElements.length);
+		console.log('Index é: ', index_operator);
+		second = operationElements[index_operator+1];
+		console.log('Segundo numero: ', second);
 		if (index_operator > 1)
 			first = result;
+		const handleOperation = {
+			"+": first + second, 
+			"-": first - second,
+			"/": first / second,
+			"*": first * second,
+			"%": first % second,
+		};
 		result = handleOperation[operationElements[index_operator]];
 		console.log('Resultado é: ' + result);
 		index_operator += 2;
