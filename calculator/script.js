@@ -1,16 +1,18 @@
 // We store each element in a variable
-const digits = document.querySelectorAll('.digits');
-const resultDisplay = document.getElementById('display-result');
-const resetBtn = document.getElementById('reset-btn');
-const deleteBtn = document.getElementById('delete-btn');
-let operationElements = [];
-let index = 0;
+const	digits = document.querySelectorAll('.digits');
+const	resultDisplay = document.getElementById('display-result');
+const	resetBtn = document.getElementById('reset-btn');
+const	deleteBtn = document.getElementById('delete-btn');
+let		operationElements = [];
+let		index = 0;
+let		prevResult = null;
 
 // Put the reset button to listen to an event
 resetBtn.addEventListener('click', () => {
 	resultDisplay.textContent = '';
-	operationElements = [];
+	operationElements.length = 0;
 	index = 0;
+	prevResult = null;
 })
 
 // TO DO: implementar botão de delete!!!!!
@@ -48,14 +50,19 @@ function isOperator(prevDigit){
 	return isNaN(operationElements[prevDigit]);
 }
 
+function storeFirstRoundOperation(chosenNumber){
+	operationElements.push(parseInt(chosenNumber));
+	resultDisplay.textContent = operationElements[0];
+	index++;
+}
+
 function storeNumber(clickedDigit){
 	let chosenNumber = clickedDigit.textContent;
 	let prevDigit = index - 1;
 
 	if (operationElements.length == 0) {
-		operationElements.push(parseInt(chosenNumber));
-		resultDisplay.textContent = operationElements[0];
-		index++;
+		if (prevResult == null)
+			storeFirstRoundOperation(chosenNumber);
 	}
 	else {
 		isOperator(prevDigit) ? insertNewNumber(chosenNumber) : addDigitToCurrentNumber(prevDigit, chosenNumber);
@@ -80,47 +87,51 @@ function isNumber(clickedDigit){
 	return clickedDigit.classList.contains('numbers')
 }
 
+function isEqualSign(clickedDigit){
+	return clickedDigit.id == 'equal-to';
+}
+
 // We need each digit to listen to the 'click' event
 digits.forEach(digit => {
 	digit.addEventListener('click', (e) => {
 		let clickedDigit = e.target;
 
-		if (clickedDigit.id == 'equal-to'){
+		if (isEqualSign(clickedDigit))
 			doCalculation();
-			return ;
-		}
-		else {
+		else
 			isNumber(clickedDigit) ? storeNumber(clickedDigit) : storeOperator(clickedDigit);
-		}
 	})
 })
 
 function doCalculation() {
-	let result;
 	let firstNumber;
 	let secondNumber;
-	let operationIndex = 1; //incrementa de dois em dois
+	let operatorIndex = 1; //incrementa de dois em dois
+	let currentResult;
 
 	firstNumber = operationElements[0];
 
-	while (operationIndex < operationElements.length) { 
-		secondNumber = operationElements[operationIndex+1];
-		if (operationIndex > 1)
-			firstNumber = result;
-		const handleOperation = {
+	while (operatorIndex < operationElements.length) { 
+		secondNumber = operationElements[operatorIndex + 1];
+		if (operatorIndex > 1)
+			firstNumber = currentResult;
+		const chosenOperation = {
 			"+": firstNumber + secondNumber, 
 			"-": firstNumber - secondNumber,
 			"/": firstNumber / secondNumber,
 			"*": firstNumber * secondNumber,
 			"%": firstNumber % secondNumber,
 		};
-		result = handleOperation[operationElements[operationIndex]];
-		operationIndex += 2;
-		resultDisplay.textContent = result;
+		currentResult = chosenOperation[operationElements[operatorIndex]];
+		operatorIndex += 2;
+		resultDisplay.textContent = currentResult;
 	}
 	
 	// after the calculation, reset variables for operationoperationType = null;
 	// another method for emptying an array...
 	operationElements.length = 0;
-	index = 0;
+	prevResult = currentResult;
+	operationElements.push(prevResult);
+	index = 1;
+	// console.log(operationElements);
 }
