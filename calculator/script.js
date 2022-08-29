@@ -2,15 +2,25 @@
 const digits = document.querySelectorAll('.digits');
 const resultDisplay = document.getElementById('display-result');
 const resetBtn = document.getElementById('reset-btn');
-let isEqual = null;
+const deleteBtn = document.getElementById('delete-btn');
 let operationElements = [];
 let index = 0;
 
 // Put the reset button to listen to an event
 resetBtn.addEventListener('click', () => {
-	isEqual = null;
 	resultDisplay.textContent = '';
+	operationElements = [];
+	index = 0;
 })
+
+// TO DO: implementar botão de delete!!!!!
+
+// deleteBtn.addEventListener('click', () => {
+// 	console.log(resultDisplay.textContent.slice(0, -1));
+// 	resultDisplay.textContent = resultDisplay.textContent.slice(0, -1);
+// 	console.log('Index: ',index);
+// 	console.log(operationElements[index]);
+// })
 
 /*
  * avaliar se o digito é numérico ou um operador
@@ -21,88 +31,96 @@ resetBtn.addEventListener('click', () => {
  * se for um operador:
  *  - foi precedido de digito? se não, precisa ser
 */
+
+function addDigitToCurrentNumber(prevDigit, chosenNumber){
+	operationElements[prevDigit] += chosenNumber;
+	operationElements[prevDigit] = parseInt(operationElements[prevDigit]);
+	resultDisplay.textContent = operationElements.join(' ');
+}
+
+function insertNewNumber(chosenNumber){
+	operationElements.push(parseInt(chosenNumber));
+	resultDisplay.textContent += ' ' + operationElements[index];
+	index++;
+}
+
+function isOperator(prevDigit){
+	return isNaN(operationElements[prevDigit]);
+}
+
+function storeNumber(clickedDigit){
+	let chosenNumber = clickedDigit.textContent;
+	let prevDigit = index - 1;
+
+	if (operationElements.length == 0) {
+		operationElements.push(parseInt(chosenNumber));
+		resultDisplay.textContent = operationElements[0];
+		index++;
+	}
+	else {
+		isOperator(prevDigit) ? insertNewNumber(chosenNumber) : addDigitToCurrentNumber(prevDigit, chosenNumber);
+	}
+}
+
+function storeOperator(clickedDigit){
+	if (operationElements.length == 0) {
+		alert('Please, you need to pick a number before the operator!');		
+		return ;
+	}
+	if (typeof(operationElements[index-1]) == 'string')
+		alert('Error: you have already chosen an operator!');
+	else {
+		operationElements.push(clickedDigit.textContent);
+		resultDisplay.textContent += ' ' + operationElements[index];
+		index++;
+	}
+}
+
+function isNumber(clickedDigit){
+	return clickedDigit.classList.contains('numbers')
+}
+
 // We need each digit to listen to the 'click' event
 digits.forEach(digit => {
 	digit.addEventListener('click', (e) => {
 		let clickedDigit = e.target;
 
-		if (clickedDigit.classList.contains('numbers')) {
-			if (operationElements.length == 0) {
-				operationElements.push(clickedDigit.textContent);
-				operationElements[0] = parseInt(operationElements[0]);
-				resultDisplay.textContent = operationElements[0];
-				index++;
-			}
-			else if (index == 1 && typeof(operationElements[index-1]) === 'number')
-			{
-				operationElements[index-1] += clickedDigit.textContent;
-				operationElements[index-1] = parseInt(operationElements[index-1]);
-				resultDisplay.textContent = operationElements[index-1];
-			}
-			else {
-				if (isNaN(operationElements[index-1]))
-				{
-					operationElements.push(clickedDigit.textContent);
-					operationElements[index] = parseInt(operationElements[index]);
-					resultDisplay.textContent += ' ' + operationElements[index];
-					index++;
-				}
-				else {
-					operationElements[index-1] += clickedDigit.textContent;
-					operationElements[index-1] = parseInt(operationElements[index-1]);
-					resultDisplay.textContent = '';
-					resultDisplay.textContent = operationElements.join(' ');
-
-				}
-			}
-		} else if (clickedDigit.classList.contains('operators')) {
-			if (operationElements.length == 0)
-				alert('Please, you need to pick a number before the operator!');		
-			else {
-				if (typeof(operationElements[index-1]) == 'string')
-					alert('Error: you have already chosen an operator!');
-				else {
-					operationElements.push(clickedDigit.textContent);
-					resultDisplay.textContent += ' ' + operationElements[index];
-					index++;
-				}
-			}
+		if (clickedDigit.id == 'equal-to'){
+			doCalculation();
+			return ;
 		}
 		else {
-			if (clickedDigit.id == 'equal-to') {
-				isEqual = 1;
-				calculation();
-			}
+			isNumber(clickedDigit) ? storeNumber(clickedDigit) : storeOperator(clickedDigit);
 		}
 	})
 })
 
-function calculation() {
+function doCalculation() {
 	let result;
-	let first;
-	let second;
-	let index_operator = 1; //incrementa de dois em dois
+	let firstNumber;
+	let secondNumber;
+	let operationIndex = 1; //incrementa de dois em dois
 
-	first = operationElements[index_operator-1];
+	firstNumber = operationElements[0];
 
-	while (index_operator < operationElements.length) { 
-		second = operationElements[index_operator+1];
-		if (index_operator > 1)
-			first = result;
+	while (operationIndex < operationElements.length) { 
+		secondNumber = operationElements[operationIndex+1];
+		if (operationIndex > 1)
+			firstNumber = result;
 		const handleOperation = {
-			"+": first + second, 
-			"-": first - second,
-			"/": first / second,
-			"*": first * second,
-			"%": first % second,
+			"+": firstNumber + secondNumber, 
+			"-": firstNumber - secondNumber,
+			"/": firstNumber / secondNumber,
+			"*": firstNumber * secondNumber,
+			"%": firstNumber % secondNumber,
 		};
-		result = handleOperation[operationElements[index_operator]];
-		index_operator += 2;
+		result = handleOperation[operationElements[operationIndex]];
+		operationIndex += 2;
 		resultDisplay.textContent = result;
 	}
 	
 	// after the calculation, reset variables for operationoperationType = null;
-	isEqual = null;
-	operationElements = [];
+	// another method for emptying an array...
+	operationElements.length = 0;
 	index = 0;
 }
